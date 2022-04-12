@@ -6,6 +6,10 @@ app.get("/", (req, res) => {
   res.send(`Pavo backend `);
 });
 
+app.get("/login", (req, res) => {
+  res.send(`Pavo backend `);
+});
+
 app.listen(PORT, () => {
   console.log(`Sever is running on${PORT}`);
 });
