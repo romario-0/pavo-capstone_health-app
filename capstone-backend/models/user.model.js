@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 require("../db/conn");
 const bcrypt = require("bcrypt");
-// require("mongoose-double")(mongoose);
 
 const userSchema = mongoose.Schema(
   {
