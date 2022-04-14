@@ -1,5 +1,7 @@
 const User = require("../models/user.model");
+const jwt = require("jsonwebtoken");
 const global = require("../middlewares/global.middleware");
+const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 dotenv.config("../.env");
 
@@ -35,4 +37,41 @@ const addUser = async (req, res) => {
   }
 };
 
-module.exports = { getUser, addUser };
+const loginUser = async (req, res) => {
+  try {
+    const checkEmail = await User.findOne({ email: req.body.email });
+    console.log(checkEmail);
+    if (checkEmail) {
+      let matchPassword = await bcrypt.compare(
+        req.body.password,
+        checkEmail.password
+      );
+      if (matchPassword) {
+        let Token = jwt.sign(
+          {
+            id: checkEmail._id,
+            fullname: checkEmail.fullname,
+            email: checkEmail.email,
+          },
+          process.env.ACCSESS_TOKEN_SECRET_kEY,
+          {
+            expiresIn: "2h",
+          }
+        );
+        return res.status(201).json({
+          message: "Login Successfull",
+          userToken: Token,
+          User: checkEmail.fullname,
+        });
+      } else {
+        return res.json({ message: "Invalid Password" });
+      }
+    } else {
+      res.status(301).json({ message: "User is not Registered" });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+module.exports = { getUser, addUser, loginUser };
