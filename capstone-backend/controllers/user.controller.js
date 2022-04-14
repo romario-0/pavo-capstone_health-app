@@ -1,11 +1,12 @@
 const User = require("../models/user.model");
+const global = require("../middlewares/global.middleware");
 const dotenv = require("dotenv");
 dotenv.config("../.env");
 
 const getUser = async (req, res) => {
   try {
-    let tokenId = getToken(req.headers.authorization);
-    const getUserDetail = await User.findById({ _id: tokenId }).select(
+    let loggedInUserId = global.getUserId(req.headers.authorization);
+    const getUserDetail = await User.findById({ _id: loggedInUserId }).select(
       "-password"
     );
     res.json({ userDetail: getUserDetail });
