@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "capstone-frontend",
-    "slug": "capstone-frontend",
+    "name": "Health App",
+    "slug": "health-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "App for an healthy lifestyle",
+    "githubUrl": "https://github.com/romario-0/pavo-capstone_health-app"
   }
 }
