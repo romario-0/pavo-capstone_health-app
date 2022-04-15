@@ -74,4 +74,84 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { getUser, addUser, loginUser };
+const updateUser = async (req, res) => {
+  try {
+    // taking user id from Headers
+    let loggedInUserId = global.getUserId(req.headers.authorization);
+
+    // Checking profile picture of user
+    const getProfileImg = await User.findById({ _id: loggedInUserId }).select(
+      "profilepic"
+    );
+    // console.log(      `this is converted to string ${getProfileImg.profilepic.data.toString()}`    );
+
+    let imgData = getProfileImg.profilepic.data;
+    let imgContent = getProfileImg.profilepic.contentType;
+
+    //in db profilepicture is unavaliable
+    if (req.file === undefined) {
+      console.log("if undefined file");
+      imgData;
+      imgContent;
+    } else {
+      // 
+      console.log("if file is available");
+      imgData = req.file.filename;
+      imgContent = req.file.mimetype;
+    }
+
+    // console.log(`${imgData} -- ${imgContent}`);
+
+    const {
+      fullname,
+      email,
+      password,
+      phone,
+      gender,
+      goal,
+      height,
+      weight,
+      age,
+      neck,
+      waist,
+      hip,
+      activity,
+    } = req.body;
+    const obj = {
+      fullname,
+      email,
+      password,
+      phone,
+      gender,
+      goal,
+      height,
+      weight,
+      age,
+      neck,
+      waist,
+      hip,
+      activity,
+      profilepic: { data: imgData, contentType: imgContent },
+    };
+    console.log(obj);
+    try {
+      const updateUserDetail = await User.updateOne(
+        { _id: loggedInUserId },
+        obj
+      );
+      console.log(updateUserDetail);
+      res.status(201).json({
+        message: "User Updated Successfully. ✔✌",
+      });
+    } catch (error) {
+      console.log(error);
+      res.json({
+        message: error,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+module.exports = { getUser, addUser, loginUser, updateUser };
