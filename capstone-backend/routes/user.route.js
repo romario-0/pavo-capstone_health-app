@@ -13,5 +13,6 @@ router.post(
   uploadProfile.single("profilepic"),
   userController.updateUser
 );
+router.get("/dashboard", authorization, userController.getDashboard);
 
 module.exports = router;
