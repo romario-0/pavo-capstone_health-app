@@ -1,14 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState}from 'react'
+import React, {useContext, useState}from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity,onPress, View, Keyboard } from 'react-native';
+import { AuthenticationContext } from '../services/AuthenticationContext';
 
 
 export default function SignInScreen() {
 
+  const {onLogin} = useContext(AuthenticationContext);
+
   const [inputs,setInputs] = useState({
-    fullname:'',
     email:'',
-    mobile:'',
     password:''
 
   })
@@ -18,8 +19,9 @@ export default function SignInScreen() {
   const validate= () =>{
     Keyboard.dismiss();
     if(!inputs.email){
-      handleError('please input emial','email')
+      handleError('please input email','email')
     }
+  }
 
     const handleOnChange = (text,input) => {
       setInputs(prevState=>({...prevState, [input]: text}))
@@ -29,19 +31,25 @@ export default function SignInScreen() {
       setErrors(prevState=>({...prevState, [input]: errorMessage}))
     }
 
+
+  const handleSignIn = () => {
+    onLogin(inputs.email, inputs.password);
   }
+
   return (
-    <View style={styles.signupform}>
+    <View style={styles.signinform}>
       <Text style={styles.header}>Sign In !</Text>
       <TextInput style={styles.textinput} 
                  placeholder="Enter Email"
                  error={errors.email}
                  onChangeText={text=>handleOnChange(text,'email')
                 }/>  
+                <Text >{inputs.email}</Text>
       <TextInput style={styles.textinput} 
                  placeholder="Enter Password"
-                 onChangeText={text=>handleOnChange(text,'passoword')}/>
-      <TouchableOpacity style={styles.sign} > 
+                 onChangeText={text=>handleOnChange(text,'password')}/>
+                 <Text >{inputs.password}</Text>
+      <TouchableOpacity style={styles.sign} onPress={handleSignIn}> 
         <Text style={styles.signtext}>Sign In</Text>
       </TouchableOpacity>  
       <StatusBar style="auto" /> 
@@ -50,7 +58,7 @@ export default function SignInScreen() {
 } 
 
 const styles = StyleSheet.create({ 
-  signupform: {
+  signinform: {
     alignSelf:'stretch',
     alignItems:'center',
     justifyContent:'center',
