@@ -7,8 +7,9 @@ dotenv.config("../.env");
 
 const getUser = async (req, res) => {
   try {
-    let loggedInUserId = global.getUserId(req.headers.authorization);
+    let loggedInUserId = global.getUserId(req.headers.authorization); //passing token in headers
     const getUserDetail = await User.findById({ _id: loggedInUserId }).select(
+      //returns user details i.e.person who logged in
       "-password"
     );
     res.json({ userDetail: getUserDetail });
@@ -19,7 +20,7 @@ const getUser = async (req, res) => {
 
 const addUser = async (req, res) => {
   try {
-    const checkEmail = await User.findOne({ email: req.body.email }); // checking email is allreday taken or not
+    const checkEmail = await User.findOne({ email: req.body.email }); // checking email is alreday taken or not
     if (checkEmail) {
       res.json({ message: "Email is already Registerd.." });
     } else {
@@ -39,10 +40,11 @@ const addUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    const checkEmail = await User.findOne({ email: req.body.email });
+    const checkEmail = await User.findOne({ email: req.body.email }); //comparing email
     console.log(checkEmail);
     if (checkEmail) {
       let matchPassword = await bcrypt.compare(
+        //hashing password
         req.body.password,
         checkEmail.password
       );
@@ -55,7 +57,7 @@ const loginUser = async (req, res) => {
           },
           process.env.ACCSESS_TOKEN_SECRET_kEY,
           {
-            expiresIn: "2h",
+            expiresIn: "2h", //token expires in 2 hours
           }
         );
         return res.status(201).json({
@@ -94,7 +96,7 @@ const updateUser = async (req, res) => {
       imgData;
       imgContent;
     } else {
-      // 
+      //
       console.log("if file is available");
       imgData = req.file.filename;
       imgContent = req.file.mimetype;
