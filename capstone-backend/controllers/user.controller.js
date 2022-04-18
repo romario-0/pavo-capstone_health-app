@@ -193,7 +193,7 @@ const getDashboard = async (req, res) => {
       },
     };
     bmiOfUser = await axios.request(bmi);
-    // console.log(bmiOfUser.data.data);
+    console.log(bmiOfUser.data.data);
 
     res.json({
       user: getUserDetail,
@@ -204,6 +204,8 @@ const getDashboard = async (req, res) => {
     console.log(error);
   }
 };
+
+
 
 module.exports = {
   getUser,
