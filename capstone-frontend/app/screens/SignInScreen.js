@@ -43,12 +43,10 @@ export default function SignInScreen() {
                  placeholder="Enter Email"
                  error={errors.email}
                  onChangeText={text=>handleOnChange(text,'email')
-                }/>  
-                <Text >{inputs.email}</Text>
+                }/>
       <TextInput style={styles.textinput} 
                  placeholder="Enter Password"
                  onChangeText={text=>handleOnChange(text,'password')}/>
-                 <Text >{inputs.password}</Text>
       <TouchableOpacity style={styles.sign} onPress={handleSignIn}> 
         <Text style={styles.signtext}>Sign In</Text>
       </TouchableOpacity>  
