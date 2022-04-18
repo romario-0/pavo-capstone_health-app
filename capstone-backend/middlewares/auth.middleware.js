@@ -12,7 +12,7 @@ const authorization = (req, res, next) => {
   } else {
     console.log(token);
     token = token.split("Bearer ")[1];
-    jwt.verify(token, process.env.ACCSESS_TOKEN_SECRET_kEY, (err, playload) => {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY, (err, playload) => {
       if (err) {
         return res.status(403).json({ message: "User is not authenticated." });
       } else {
@@ -23,4 +23,4 @@ const authorization = (req, res, next) => {
   }
 };
 
-module.exports = { authorization };
+module.exports = { authorization }; 
