@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const global = require("../middlewares/global.middleware");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
+const axios = require("axios");
 dotenv.config("../.env");
 
 const getUser = async (req, res) => {
@@ -106,8 +107,8 @@ const updateUser = async (req, res) => {
 
     const {
       fullname,
-      email,
-      password,
+      //email,
+      // password,
       phone,
       gender,
       goal,
@@ -121,8 +122,8 @@ const updateUser = async (req, res) => {
     } = req.body;
     const obj = {
       fullname,
-      email,
-      password,
+      // email,
+      //password,
       phone,
       gender,
       goal,
@@ -156,4 +157,58 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { getUser, addUser, loginUser, updateUser };
+const getDashboard = async (req, res) => {
+  let loggedInUserId, idealWeightOfUser, bmiOfUser;
+  try {
+    loggedInUserId = global.getUserId(req.headers.authorization);
+    const getUserDetail = await User.findById({ _id: loggedInUserId }).select(
+      "-password"
+    );
+
+    // idealWeight
+    const idealWeight = {
+      method: "GET",
+      url: "https://fitness-calculator.p.rapidapi.com/idealweight",
+      params: { gender: getUserDetail.gender, height: getUserDetail.height },
+      headers: {
+        "X-RapidAPI-Host": "fitness-calculator.p.rapidapi.com",
+        "X-RapidAPI-Key": "56d21850d0msh562e0fff5e3f167p167d1cjsnf6ba583a1812",
+      },
+    };
+    idealWeightOfUser = await axios.request(idealWeight);
+    // console.log(idealWeightOfUser.data.data);
+
+    // Bmi
+    const bmi = {
+      method: "GET",
+      url: "https://fitness-calculator.p.rapidapi.com/bmi",
+      params: {
+        age: getUserDetail.age,
+        weight: getUserDetail.weight,
+        height: getUserDetail.height,
+      },
+      headers: {
+        "X-RapidAPI-Host": "fitness-calculator.p.rapidapi.com",
+        "X-RapidAPI-Key": "56d21850d0msh562e0fff5e3f167p167d1cjsnf6ba583a1812",
+      },
+    };
+    bmiOfUser = await axios.request(bmi);
+    // console.log(bmiOfUser.data.data);
+
+    res.json({
+      user: getUserDetail,
+      idealWeightOfUser: idealWeightOfUser.data.data,
+      bmi: bmiOfUser.data.data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = {
+  getUser,
+  addUser,
+  loginUser,
+  updateUser,
+  getDashboard,
+};
