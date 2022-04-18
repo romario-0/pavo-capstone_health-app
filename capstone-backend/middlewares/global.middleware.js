@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config("../.env");
 const multer = require("multer");
@@ -7,20 +6,9 @@ const fs = require("fs");
 const User = require("../models/user.model");
 const profileImageUploadPath = path.join(__dirname, "../img/profilepic");
 
-const getUserId = (headerToken) => {
-  try {
-    let token = headerToken;
-    token = token.split("Bearer ")[1];
-    let decoded = jwt.decode(token);
-    return decoded.id;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    console.log(profileImageUploadPath);
+    // console.log(profileImageUploadPath);
     cb(null, `${profileImageUploadPath}`);
   },
   filename: async (req, file, cb) => {
@@ -58,4 +46,4 @@ const uploadProfile = multer({
   },
 });
 
-module.exports = { getUserId, uploadProfile };
+module.exports = { uploadProfile };
