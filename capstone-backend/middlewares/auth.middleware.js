@@ -10,6 +10,7 @@ const authorization = (req, res, next) => {
     res.json({ message: "Please login again Token is Expired" });
     return;
   } else {
+    console.log(token);
     token = token.split("Bearer ")[1];
     jwt.verify(token, process.env.ACCSESS_TOKEN_SECRET_kEY, (err, playload) => {
       if (err) {
