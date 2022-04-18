@@ -53,7 +53,7 @@ const loginUser = async (req, res) => {
             fullname: checkEmail.fullname,
             email: checkEmail.email,
           },
-          process.env.ACCSESS_TOKEN_SECRET_kEY,
+          process.env.ACCESS_TOKEN_SECRET_KEY,
           {
             expiresIn: "2h",
           }
