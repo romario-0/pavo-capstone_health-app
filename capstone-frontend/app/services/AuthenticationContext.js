@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import * as SecureStore from 'expo-secure-store';
+import { Platform } from "react-native";
 
 export const AuthenticationContext = createContext();
 
@@ -7,18 +8,24 @@ export const AuthenticationContextProvider = ({children}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
+    const localPath = "http://localhost:4000/";
+    const path = 'https://ultimate-health-app.herokuapp.com/';
 
     const checkLoggedUser = () => {
         setIsLoading(true);
-        //await SecureStore.getItemAsync('token');
-        const requestOptions = {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json', authorization : 'token' }
-          };
-          fetch('http://localhost:4000/user/userGet', requestOptions).then(res => res.json()).then(async data => {
-            setUser(data.User);
-            setIsLoading(false);
-          });
+        if (Platform.OS != 'web') {
+          const token = 'Empty';//await SecureStore.getItemAsync('token');
+          if(token != null){
+            const requestOptions = {
+              method: 'GET',
+              headers: { 'Content-Type': 'application/json', 'authorization' : token }
+            };
+            fetch(path+'user/userGet', requestOptions).then(res => res.json()).then(async data => {
+              setUser(data.User);
+              setIsLoading(false);
+            });
+          }
+        }
     }
 
     const onLogin = (email, password) => {
@@ -28,9 +35,12 @@ export const AuthenticationContextProvider = ({children}) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({email : email,password : password})
           };
-          fetch('http://localhost:4000/user/userLogin', requestOptions).then(res => res.json()).then(async data => {
+          fetch(path+'user/userLogin', requestOptions).then(res => res.json()).then(async data => {
             setUser(data.User);
-            //await SecureStore.setItemAsync('token', data.userToken);
+            console.log(Platform.OS);
+            if (Platform.OS != 'web') {
+              //await SecureStore.setItemAsync('token', data.userToken);
+            }
             setIsLoading(false);
           });
     }
@@ -42,15 +52,20 @@ export const AuthenticationContextProvider = ({children}) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userDetails)
           };
-          fetch('http://localhost:4000/user/userAdd', requestOptions).then(res => res.json()).then(async data => {
+          fetch(path+'user/userAdd', requestOptions).then(res => res.json()).then(async data => {
             setUser(data.User);
-            //await SecureStore.setItemAsync('token', data.userToken);
+            if (Platform.OS != 'web') {
+              //await SecureStore.setItemAsync('token', data.userToken);
+            }
             setIsLoading(false);
           });
     }
 
     const onLogout = () => {
         setUser(null);
+        if (Platform.OS != 'web') {
+          //await SecureStore.setItemAsync('token', null);
+        }
     }
 
     return (
