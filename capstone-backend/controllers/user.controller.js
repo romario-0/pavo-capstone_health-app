@@ -22,7 +22,18 @@ const addUser = async (req, res) => {
     if (userEmail) {
       res.json({ message: "Email is already Registerd.." });
     } else {
-      const data = new User(req.body);
+      const userData = {
+        fullname: req.body.fullname,
+        email: req.body.email,
+        password: req.body.password,
+        phone: req.body.phone,
+        gender: req.body.gender,
+        profilepic: {
+          data: "https://drive.google.com/file/d/1OiX69mNDf7KH_jMXepcjjgXi5jsmLQAM/view?usp=sharing",
+          contentType: "image/jpeg",
+        },
+      };
+      const data = new User(userData);
       const response = await data.save(); //save data into db
       res.json({
         message: "Registration Done",
@@ -87,15 +98,14 @@ const updateUser = async (req, res) => {
 
     //in db profilepicture is unavaliable
     if (req.file === undefined) {
-      console.log("if undefined file");
+      // console.log("if undefined file");
       imgData;
       imgContent;
     } else {
-      console.log("if file is available");
+      // console.log("if file is available");
       imgData = req.file.filename;
       imgContent = req.file.mimetype;
     }
-
     // console.log(`${imgData} -- ${imgContent}`);
 
     const {
@@ -129,15 +139,13 @@ const updateUser = async (req, res) => {
       activity,
       profilepic: { data: imgData, contentType: imgContent },
     };
-    console.log(obj);
+    // console.log(obj);
     try {
-      const updateUserDetail = await User.updateOne(
-        { _id: loggedInUserId },
-        obj
-      );
-      console.log(updateUserDetail);
+      const updateUserDetail = await User.updateOne({ _id: req.user.id }, obj);
+      // console.log(updateUserDetail);
       res.status(201).json({
         message: "User Updated Successfully. ✔✌",
+        updateUserDetail: updateUserDetail,
       });
     } catch (error) {
       console.log(error);
