@@ -10,7 +10,7 @@ const getUser = async (req, res) => {
     const getUserDetail = await User.findById({ _id: req.user.id }).select(
       "-password"
     );
-    res.json({ userDetail: getUserDetail });
+    res.json({ userDetail: getUserDetail }); //returns all user details
   } catch (err) {
     console.log(err);
   }
@@ -18,12 +18,12 @@ const getUser = async (req, res) => {
 
 const addUser = async (req, res) => {
   try {
-    const userEmail = await User.findOne({ email: req.body.email }); // checking email is allreday taken or not
+    const userEmail = await User.findOne({ email: req.body.email }); // checking email is alreday taken or not
     if (userEmail) {
       res.json({ message: "Email is already Registerd.." });
     } else {
       const data = new User(req.body);
-      const response = await data.save();
+      const response = await data.save(); //save data into db
       res.json({
         message: "Registration Done",
         _id: response._id,
@@ -38,7 +38,7 @@ const addUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    const userEmail = await User.findOne({ email: req.body.email });
+    const userEmail = await User.findOne({ email: req.body.email }); //verifing email
     // console.log(userEmail);
     if (userEmail) {
       let matchPassword = await bcrypt.compare(
@@ -157,6 +157,21 @@ const getDashboard = async (req, res) => {
       "-password"
     );
 
+    // motivational quotes
+    const quotes = {
+      method: "POST",
+      url: "https://motivational-quotes1.p.rapidapi.com/motivation",
+      headers: {
+        "content-type": "application/json",
+        "X-RapidAPI-Host": "motivational-quotes1.p.rapidapi.com",
+        "X-RapidAPI-Key": "56d21850d0msh562e0fff5e3f167p167d1cjsnf6ba583a1812",
+      },
+      data: '{"key1":"value","key2":"value"}',
+    };
+    //fetching from api
+    motivationalQuote = await axios.request(quotes);
+    // console.log(motivationalQuote.data);
+
     // idealWeight
     const idealWeight = {
       method: "GET",
@@ -167,6 +182,7 @@ const getDashboard = async (req, res) => {
         "X-RapidAPI-Key": "56d21850d0msh562e0fff5e3f167p167d1cjsnf6ba583a1812",
       },
     };
+    //fetching from api
     idealWeightOfUser = await axios.request(idealWeight);
     // console.log(idealWeightOfUser.data.data);
 
@@ -184,8 +200,9 @@ const getDashboard = async (req, res) => {
         "X-RapidAPI-Key": "56d21850d0msh562e0fff5e3f167p167d1cjsnf6ba583a1812",
       },
     };
+    //fetching from api
     bmiOfUser = await axios.request(bmi);
-    console.log(bmiOfUser.data.data);
+    // console.log(bmiOfUser.data.data);
 
     // body fat percentage
     const bodyFat = {
@@ -198,7 +215,7 @@ const getDashboard = async (req, res) => {
         neck: getUserDetail.neck,
         waist: getUserDetail.waist,
         hip: getUserDetail.hip,
-      },
+      }, //fetching details from DB
       headers: {
         "X-RapidAPI-Host": "fitness-calculator.p.rapidapi.com",
         "X-RapidAPI-Key": "56d21850d0msh562e0fff5e3f167p167d1cjsnf6ba583a1812",
@@ -208,11 +225,12 @@ const getDashboard = async (req, res) => {
     // console.log(bodyFatOfUser.data.data);
 
     res.json({
+      quote: motivationalQuote.data,
       user: getUserDetail,
       idealWeightOfUser: idealWeightOfUser.data.data,
       bmiOfUser: bmiOfUser.data.data,
       bodyFatOfUser: bodyFatOfUser.data.data,
-    });
+    }); //returns all details of user,idealweight,bmi,bodyfat
   } catch (error) {
     console.log(error);
   }
