@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import MainNavigator from './app/navigations/MainNavigator';
 import { AuthenticationContextProvider } from './app/services/AuthenticationContext';
+import 'react-native-gesture-handler';
 
 export default function App() {
 
