@@ -238,6 +238,8 @@ const getDashboard = async (req, res) => {
       idealWeightOfUser: idealWeightOfUser.data.data,
       bmiOfUser: bmiOfUser.data.data,
       bodyFatOfUser: bodyFatOfUser.data.data,
+
+      
     }); //returns all details of user,idealweight,bmi,bodyfat
   } catch (error) {
     console.log(error);
