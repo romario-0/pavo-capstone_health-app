@@ -180,6 +180,32 @@ const getDashboard = async (req, res) => {
     motivationalQuote = await axios.request(quotes);
     // console.log(motivationalQuote.data);
 
+    // // checkig purpuse
+    // console.log(`${getUserDetail.height}
+    //   ${getUserDetail.weight}
+    //   ${getUserDetail.goal}
+    //   ${getUserDetail.age}
+    //   ${getUserDetail.hip}
+    //   ${getUserDetail.neck}
+    //   ${getUserDetail.waist}
+    //   ${getUserDetail.activity}`);
+    if (
+      !getUserDetail.height &&
+      !getUserDetail.weight &&
+      !getUserDetail.goal &&
+      !getUserDetail.age &&
+      !getUserDetail.hip &&
+      !getUserDetail.neck &&
+      !getUserDetail.waist &&
+      !getUserDetail.activity
+    ) {
+      return res.json({
+        quote: motivationalQuote.data,
+        user: getUserDetail,
+        message: "Data not availabe",
+      });
+    }
+
     // idealWeight
     const idealWeight = {
       method: "GET",
@@ -238,8 +264,6 @@ const getDashboard = async (req, res) => {
       idealWeightOfUser: idealWeightOfUser.data.data,
       bmiOfUser: bmiOfUser.data.data,
       bodyFatOfUser: bodyFatOfUser.data.data,
-
-      
     }); //returns all details of user,idealweight,bmi,bodyfat
   } catch (error) {
     console.log(error);
