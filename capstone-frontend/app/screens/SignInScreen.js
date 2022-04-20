@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     flex:1
   },
   header:{
-      fontsize:27,
+      fontSize:27,
       fontWeight:"bold",
       color:"#fff",
       paddingBottom:10,
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     color:"#fff",
     borderBottomColor:"#f8f8f8",
     borderBottomWidth:1,
-    outlineStyle:"none"    
+        
   },
   sign:{
       alignSelf:"stretch",

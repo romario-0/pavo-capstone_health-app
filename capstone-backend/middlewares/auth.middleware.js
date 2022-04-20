@@ -10,7 +10,7 @@ const authorization = (req, res, next) => {
     res.json({ message: "Please login again Token is Expired" });
     return;
   } else {
-    console.log(token);
+    // console.log(token);
     token = token.split("Bearer ")[1];
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY, (err, playload) => {
       if (err) {
@@ -23,4 +23,4 @@ const authorization = (req, res, next) => {
   }
 };
 
-module.exports = { authorization }; 
+module.exports = { authorization };
