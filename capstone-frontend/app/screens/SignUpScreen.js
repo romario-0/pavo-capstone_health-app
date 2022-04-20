@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState}from 'react'
+import React, {useState,useEffect,useContext}from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity,onPress, View, Keyboard } from 'react-native';
+import { AuthenticationContext } from '../services/AuthenticationContext';
+import { RadioButton } from 'react-native-paper';
 
 
 export default function SignUpScreen() {
@@ -9,22 +11,69 @@ export default function SignUpScreen() {
     username:'',
     email:'',
     mobile:'',
-    password:''
+    crepwd:'',
+    cnfmpwd:'',
+  
 
   })
 
+  const [formErrors,setFormErrors]= useState({});
+
   const [errors,setErrors]= useState({});
 
-  
-
+  //const [isSubmit,setIsSubmit]= useState(false)
+  const {onRegister} = useContext(AuthenticationContext);
+  const [checked,setChecked]= useState("male")
+    
     const handleOnChange = (text,input) => {
       setInputs(prevState=>({...prevState, [input]: text}))
-      console.log(inputs)
+      
     }
 
-    const handleError = (errorMessage,input)=>{
-      setErrors(prevState=>({...prevState, [input]: errorMessage}))
+    const handleSignup=()=>{
+
+      setFormErrors(validate(inputs));
+      const user={fullname:inputs.username,email:inputs.email,password:inputs.cnfmpwd,gender:checked}
+      onRegister(user)
+      console.log(user)
+ 
+     }
+
+     useEffect(()=>{
+     
+      
+     },[formErrors])
+
+    const validate=  (values) => {
+     const errors={};
+     const regex= /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+     if(!values.username){
+       errors.username="username is required";
+     }else if(values.username.length<4){
+       errors.username="username must be 4 characters"
+     }
+     if(!values.email){
+      errors.email="emial is required";
     }
+    if(!values.mobile){
+      errors.mobile="mobile is required";
+    }else if(values.mobile.length>10 || values.mobile.length<10){
+      errors.mobile="Invalid Mobile Number!"
+    }
+    if(!values.crepwd){
+      errors.crepwd="Password is required";
+    }else if(values.crepwd.length<8){
+      errors.crepwd="Password must be 8 characters"; 
+    } 
+    if(!values.cnfmpwd){
+      errors.cnfmpwd="confirm the password"; 
+    } else if(values.crepwd!==values.cnfmpwd){
+      errors.cnfmpwd="Password was not matched" 
+    }
+    return errors;  
+    }
+
+  
 
   
   return (
@@ -34,22 +83,47 @@ export default function SignUpScreen() {
                  placeholder="Enter Full Name"
                  name="username"
                  value={inputs.username}
-                 onChangeText={handleOnChange}/>
+                 onChangeText={text=>handleOnChange(text,"username")}/> 
+        <Text style={styles.error}>{formErrors.username}</Text>
       <TextInput style={styles.textinput} 
                  placeholder="Enter Email"
                  error={errors.email}
-                 onChangeText={handleOnChange}/>  
+                 onChangeText={text=>handleOnChange(text,"email")}/>
+                 <Text style={styles.error}>{formErrors.email}</Text>  
        <TextInput style={styles.textinput}
                  keyboardType='numeric'
                  placeholder="Enter Mobile Number" 
-                 onChangeText={handleOnChange}/>
+                 onChangeText={text=>handleOnChange(text,"mobile")}/>
+                 <Text style={styles.error}>{formErrors.mobile}</Text>
+                 { checked}
+        <View style={styles.inline}>
+        <Text>Male</Text>
+        <RadioButton
+        value="male"
+        status={ checked === 'male' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('male')}
+      />
+      <Text>Female</Text>
+      <RadioButton 
+        value="female"
+        status={ checked === 'female' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('female')} 
+      />
+        </View>
+        
       <TextInput style={styles.textinput} 
                  placeholder="Create Password"
-                 onChangeText={handleOnChange}/>
+                 type="password" 
+                 secureTextEntry={true}
+                 onChangeText={text=>handleOnChange(text,"crepwd")}/>
+                 <Text style={styles.error}>{formErrors.crepwd}</Text>
       <TextInput style={styles.textinput} 
                  placeholder="Confirm Password"
-                 onChangeText={handleOnChange}/>
-      <TouchableOpacity style={styles.sign} > 
+                 type="password"
+                 secureTextEntry={true}
+                 onChangeText={text=>handleOnChange(text,"cnfmpwd")}/>
+                 <Text style={styles.error}>{formErrors.cnfmpwd}</Text>
+      <TouchableOpacity style={styles.sign} onPress={handleSignup}> 
         <Text style={styles.signtext}>Sign Up</Text>
       </TouchableOpacity>  
       <StatusBar style="auto" /> 
@@ -93,7 +167,27 @@ const styles = StyleSheet.create({
       borderRadius:10,
       marginTop:20
     },
+    gen:{
+      alignSelf:"stretch",
+      alignItems:"center",
+      padding:20,
+      background:"tranparent",
+      border:"1px solid #fff",
+      borderRadius:10,
+      marginTop:20
+    },
     signtext:{
         fontWeight:"bold" 
+    },
+    error:{
+    color:"red",
+    marginRight:'auto',
+    fontsize:21,
+    marginTop:-20
+
+    },
+    inline:{
+      display:"flex",
+      flexDirection:"row"
     }
 }); 

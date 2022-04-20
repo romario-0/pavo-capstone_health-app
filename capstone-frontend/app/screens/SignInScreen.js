@@ -14,6 +14,8 @@ export default function SignInScreen() {
 
   })
 
+  const [formErrors,setFormErrors]= useState({});
+
   const [errors,setErrors]= useState({});
 
   const validate= () =>{
@@ -23,13 +25,20 @@ export default function SignInScreen() {
     }
   }
 
+  
+    
     const handleOnChange = (text,input) => {
       setInputs(prevState=>({...prevState, [input]: text}))
+      
     }
 
-    const handleError = (errorMessage,input)=>{
-      setErrors(prevState=>({...prevState, [input]: errorMessage}))
-    }
+    const handleSubmit=(e)=>{
+      e.preventDefault();
+      setFormErrors(validate(inputs));
+      setIsSubmit(true)
+      console.log(inputs) 
+ 
+     }
 
 
   const handleSignIn = () => {
@@ -41,11 +50,12 @@ export default function SignInScreen() {
       <Text style={styles.header}>Sign In !</Text>
       <TextInput style={styles.textinput} 
                  placeholder="Enter Email"
-                 error={errors.email}
+                 value={inputs.email}
                  onChangeText={text=>handleOnChange(text,'email')
                 }/>
       <TextInput style={styles.textinput} 
-                 placeholder="Enter Password"
+                 placeholder="Enter Password" 
+                 secureTextEntry={true}
                  onChangeText={text=>handleOnChange(text,'password')}/>
       <TouchableOpacity style={styles.sign} onPress={handleSignIn}> 
         <Text style={styles.signtext}>Sign In</Text>
@@ -93,5 +103,12 @@ const styles = StyleSheet.create({
     },
     signtext:{
         fontWeight:"bold" 
-    }
+    },
+    error:{
+      color:"red",
+      marginRight:'auto',
+      fontsize:21,
+      marginTop:-20
+  
+      }
 }); 
