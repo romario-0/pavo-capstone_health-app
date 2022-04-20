@@ -12,8 +12,7 @@ const storage = multer.diskStorage({
     cb(null, `${profileImageUploadPath}`);
   },
   filename: async (req, file, cb) => {
-    let loggedInUserId = getUserId(req.headers.authorization);
-    const getId = await User.findById({ _id: loggedInUserId }).select("_id");
+    const getId = await User.findById({ _id: req.user.id }).select("_id");
     // console.log(getId._id);
     if (file === undefined) {
       cb(null, false);
