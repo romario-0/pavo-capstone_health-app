@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const axios = require("axios");
 dotenv.config("../.env");
+const path = require("path");
+const profileImageUploadPath = path.join(__dirname, "../img/profilepic");
 
 const getUser = async (req, res) => {
   try {
@@ -84,7 +86,7 @@ const loginUser = async (req, res) => {
             email: userEmail.email,
             phone: userEmail.phone,
             gender: userEmail.gender,
-            profilepic: userEmail.profilepic,
+            profilepic: userEmail.profilepic.data.toString(),
           },
         });
       } else {

@@ -4,7 +4,6 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const User = require("../models/user.model");
-const profileImageUploadPath = path.join(__dirname, "../img/profilepic");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
