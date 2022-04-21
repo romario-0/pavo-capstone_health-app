@@ -29,6 +29,14 @@
       "favicon": "./assets/favicon.png"
     },
     "description": "App for an healthy lifestyle",
-    "githubUrl": "https://github.com/romario-0/pavo-capstone_health-app"
+    "githubUrl": "https://github.com/romario-0/pavo-capstone_health-app",
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ]
   }
 }
