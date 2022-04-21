@@ -5,7 +5,6 @@ const dotenv = require("dotenv");
 const axios = require("axios");
 dotenv.config("../.env");
 const path = require("path");
-const profileImageUploadPath = path.join(__dirname, "../img/profilepic");
 
 const getUser = async (req, res) => {
   try {
@@ -46,7 +45,7 @@ const addUser = async (req, res) => {
           email: response.email,
           phone: response.phone,
           gender: response.gender,
-          profilepic: response.profilepic,
+          profilepic: response.profilepic.data.toString(),
         },
       });
     }
