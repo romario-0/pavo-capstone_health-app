@@ -14,7 +14,7 @@ export default class SideBar extends Component {
               />
             </div>
             <div className="pull-left info">
-              <p>Alexander Pierce</p>
+              <p>User Name</p>
               <a href="#">
                 <i className="fa fa-circle text-success"></i> Online
               </a>
@@ -41,7 +41,7 @@ export default class SideBar extends Component {
             </div>
           </form>
           <ul className="sidebar-menu" data-widget="tree">
-            <li className="header">MAIN NAVIGATION</li>
+            <li className="header">MAIN GOAL</li>
             <li className="treeview">
               <a href="#">
                 <i className="fa fa-files-o"></i>
@@ -84,7 +84,7 @@ export default class SideBar extends Component {
             <li className="treeview">
               <a href="#">
                 <i className="fa fa-pie-chart"></i>
-                <span>Charts</span>
+                <span>Charts DIET</span>
                 <span className="pull-right-container">
                   <i className="fa fa-angle-left pull-right"></i>
                 </span>
@@ -92,22 +92,22 @@ export default class SideBar extends Component {
               <ul className="treeview-menu">
                 <li>
                   <a href="pages/charts/chartjs.html">
-                    <i className="fa fa-circle-o"></i> ChartJS
+                    <i className="fa fa-circle-o"></i> DAILY GOAL
                   </a>
                 </li>
                 <li>
                   <a href="pages/charts/morris.html">
-                    <i className="fa fa-circle-o"></i> Morris
+                    <i className="fa fa-circle-o"></i> EXCERCISES
                   </a>
                 </li>
                 <li>
                   <a href="pages/charts/flot.html">
-                    <i className="fa fa-circle-o"></i> Flot
+                    <i className="fa fa-circle-o"></i> PLAN
                   </a>
                 </li>
                 <li>
                   <a href="pages/charts/inline.html">
-                    <i className="fa fa-circle-o"></i> Inline charts
+                    <i className="fa fa-circle-o"></i> DIET charts
                   </a>
                 </li>
               </ul>
@@ -116,12 +116,12 @@ export default class SideBar extends Component {
               <ul className="treeview-menu">
                 <li>
                   <a href="pages/tables/simple.html">
-                    <i className="fa fa-circle-o"></i> Simple tables
+                    <i className="fa fa-circle-o"></i> EXCERCISE tables
                   </a>
                 </li>
                 <li>
                   <a href="pages/tables/data.html">
-                    <i className="fa fa-circle-o"></i> Data tables
+                    <i className="fa fa-circle-o"></i> FOOD tables
                   </a>
                 </li>
               </ul>
@@ -130,6 +130,7 @@ export default class SideBar extends Component {
               <a href="pages/calendar.html">
                 <i className="fa fa-calendar"></i> <span>Calendar</span>
                 <span className="pull-right-container">
+                  {" "}
                   <small className="label pull-right bg-red">3</small>
                   <small className="label pull-right bg-blue">17</small>
                 </span>

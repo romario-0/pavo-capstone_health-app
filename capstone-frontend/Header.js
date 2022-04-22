@@ -47,7 +47,7 @@ export default class Header extends Component {
                               <i className="fa fa-clock-o"></i> 5 mins
                             </small>
                           </h4>
-                          <p>Why not buy a new awesome theme?</p>
+                          <p>Why not buy a new DIET PLAN?</p>
                         </a>
                       </li>
                     </ul>

@@ -9,13 +9,13 @@ export default class Content extends Component {
             <div className="col-md-12">
               <div className="box">
                 <div className="box-header with-border">
-                  <h3 className="box-title">Monthly Recap Report</h3>
+                  <h3 className="box-title">Monthly health Report</h3>
                 </div>
                 <div className="box-body">
                   <div className="row">
                     <div className="col-md-8">
                       <p className="text-center">
-                        <strong>This is text</strong>
+                        <strong>This is plan</strong>
                       </p>
                     </div>
                   </div>
@@ -27,8 +27,8 @@ export default class Content extends Component {
                         <span className="description-percentage text-green">
                           <i className="fa fa-caret-up"></i> 17%
                         </span>
-                        <h5 className="description-header">$35,210.43</h5>
-                        <span className="description-text">TOTAL REVENUE</span>
+                        <h5 className="description-header">Diet plan</h5>
+                        <span className="description-text">TOTAL Weight</span>
                       </div>
                     </div>
                   </div>
