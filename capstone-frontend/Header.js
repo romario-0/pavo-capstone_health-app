@@ -19,7 +19,7 @@ export default class Header extends Component {
             data-toggle="push-menu"
             role="button"
           >
-            <span className="sr-only">Toggle navigation</span>
+            <span className="sr-only">User Manual</span>
           </a>
           <div className="navbar-custom-menu">
             <ul className="nav navbar-nav">
@@ -29,7 +29,7 @@ export default class Header extends Component {
                   <span className="label label-success">4</span>
                 </a>
                 <ul className="dropdown-menu">
-                  <li className="header">You have 4 messages</li>
+                  <li className="header">You have Diet messages</li>
                   <li>
                     <ul className="menu">
                       <li>

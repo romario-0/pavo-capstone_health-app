@@ -53,17 +53,17 @@ export default class SideBar extends Component {
               <ul className="treeview-menu">
                 <li>
                   <a href="pages/layout/top-nav.html">
-                    <i className="fa fa-circle-o"></i> Top Navigation
+                    <i className="fa fa-circle-o"></i> Diet Chart
                   </a>
                 </li>
                 <li>
                   <a href="pages/layout/boxed.html">
-                    <i className="fa fa-circle-o"></i> Boxed
+                    <i className="fa fa-circle-o"></i> PAYED PLAN
                   </a>
                 </li>
                 <li>
                   <a href="pages/layout/fixed.html">
-                    <i className="fa fa-circle-o"></i> Fixed
+                    <i className="fa fa-circle-o"></i> Fixed ROUTINE
                   </a>
                 </li>
                 <li>
@@ -75,7 +75,7 @@ export default class SideBar extends Component {
             </li>
             <li>
               <a href="pages/widgets.html">
-                <i className="fa fa-th"></i> <span>Widgets</span>
+                <i className="fa fa-th"></i> <span>HELP</span>
                 <span className="pull-right-container">
                   <small className="label pull-right bg-green">new</small>
                 </span>
