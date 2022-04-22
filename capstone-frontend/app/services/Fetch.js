@@ -9,6 +9,14 @@ const useFetch = (url) => {
 
     useEffect(() => {
       setIsLoading(true);
+/*
+      token = token != undefined ? token : '';
+
+      const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'authorization' : token }
+      };*/
+
       fetch(URL_PATH+url).then(res => {
           if(!res.ok){
               throw Error('could not fetch data');
@@ -19,7 +27,7 @@ const useFetch = (url) => {
           setIsLoading(false);
           setServerError(null);
       }).catch(err => {
-          isLoading(false);
+          setIsLoading(false);
           setServerError(err.message);
       });
 

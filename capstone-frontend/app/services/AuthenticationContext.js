@@ -10,7 +10,7 @@ export const AuthenticationContextProvider = ({children}) => {
     const [error, setError] = useState(null);
     const [userToken, setUserToken] = useState(null);
 
-    const localPath = "http://localhost:4000/";
+    //const path = "http://localhost:4000/";
     const path = 'https://ultimate-health-app.herokuapp.com/';
 
     const checkLoggedUser = () => {
@@ -22,11 +22,16 @@ export const AuthenticationContextProvider = ({children}) => {
               method: 'GET',
               headers: { 'Content-Type': 'application/json', 'authorization' : userToken }
             };
-            fetch(path+'user/userGet', requestOptions).then(res => res.json()).then(async data => {
-              setUser(data.User);
-              setIsLoading(false);
+            return fetch(path+'user/userGet', requestOptions).then(res => res.json()).then(async data => {
+              if(data.user != undefined && data.user != null){
+                setUser(data.user);
+              }else{
+                setError(data.message);
+              }
+              return data.user !== null;
             });
           }
+          return false;
         }
     }
 
@@ -38,9 +43,13 @@ export const AuthenticationContextProvider = ({children}) => {
             body: JSON.stringify({email : email,password : password})
           };
           fetch(path+'user/userLogin', requestOptions).then(res => res.json()).then(async data => {
-            setUser(data.User);
-            setUserToken(data.userToken);
-            console.log(Platform.OS);
+            if(data.user != undefined && data.user != null){
+              setUser(data.user);
+              setUserToken(data.userToken);
+            }else{
+              setError(data.message);
+            }
+            
             if (Platform.OS != 'web') {
               //await SecureStore.setItemAsync('token', data.userToken);
             }
@@ -56,7 +65,12 @@ export const AuthenticationContextProvider = ({children}) => {
             body: JSON.stringify(userDetails)
           };
           fetch(path+'user/userAdd', requestOptions).then(res => res.json()).then(async data => {
-            setUser(data.User);
+            if(data.user != undefined && data.user != null){
+              setUser(data.user);
+              //setUserToken(data.userToken);
+            }else{
+              setError(data.message);
+            }
             if (Platform.OS != 'web') {
               //await SecureStore.setItemAsync('token', data.userToken);
             }
