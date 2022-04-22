@@ -3,6 +3,8 @@ import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 
+
+
 const Stack = createNativeStackNavigator();
 
 const AccountNavigator = () => {
