@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const axios = require("axios");
 dotenv.config("../.env");
+const path = require("path");
 
 const getUser = async (req, res) => {
   try {
@@ -38,8 +39,14 @@ const addUser = async (req, res) => {
       res.json({
         message: "Registration Done",
         _id: response._id,
-        fullName: response.fullname,
-        email: response.email,
+        user: {
+          id: response._id,
+          fullname: response.fullname,
+          email: response.email,
+          phone: response.phone,
+          gender: response.gender,
+          profilepic: response.profilepic.data.toString(),
+        },
       });
     }
   } catch (error) {
@@ -72,7 +79,14 @@ const loginUser = async (req, res) => {
         return res.status(201).json({
           message: "Login Successfull",
           userToken: Token,
-          User: userEmail.fullname,
+          user: {
+            id: userEmail._id,
+            fullname: userEmail.fullname,
+            email: userEmail.email,
+            phone: userEmail.phone,
+            gender: userEmail.gender,
+            profilepic: userEmail.profilepic.data.toString(),
+          },
         });
       } else {
         return res.json({ message: "Invalid Password" });
