@@ -10,6 +10,8 @@ const GoalScreen = () => {
       const {isLoading, apiData, serverError} = useFetch('goal/getGoal');
       let goalElements = null;
 
+      const path = 'https://ultimate-health-app.herokuapp.com/goal/';
+
         if(apiData){
             console.log(apiData);
             goalElements = apiData.allGoals.map(item => {
@@ -17,7 +19,7 @@ const GoalScreen = () => {
             return (
                 <View style={selectedCss} key={item._id}>
                     <TouchableOpacity onPress={() => {setGoal(item.goal)}}>
-                    <Image style={{height: 40, width: 40}} source={{uri: item.goalImg}}/>
+                    <Image style={{height: 40, width: 40}} source={{uri: path+item.goalImg}}/>
                     <Text>{item.goal}</Text>
                     </TouchableOpacity>
                 </View>
