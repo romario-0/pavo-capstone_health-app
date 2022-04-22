@@ -16,8 +16,10 @@ import { AuthenticationContext } from '../services/AuthenticationContext';
 
 const CustomDrawer = (props) => {
 
+  const path = 'https://ultimate-health-app.herokuapp.com/profilepic/';
     const {user, onLogout} = useContext(AuthenticationContext);
-
+    const profilePic = typeof user.profilepic === "string" ? path+user.profilepic : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
+    //const profilePic = path + user.profilepic;
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView
@@ -28,7 +30,7 @@ const CustomDrawer = (props) => {
           style={{padding: 20}}>
             <TouchableOpacity onPress={() => {props.navigation.navigate('Profile')}}>
           <Image
-            source={{uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}}
+            source={{uri: profilePic}}
             style={{height: 80, width: 80, borderRadius: 40, marginBottom: 10}}
           />
           <Text
@@ -38,7 +40,7 @@ const CustomDrawer = (props) => {
               fontFamily: 'Roboto-Medium',
               marginBottom: 5,
             }}>
-            {user}
+            {user.fullname}
           </Text>
           <View style={{flexDirection: 'row'}}>
             <Text
@@ -47,7 +49,7 @@ const CustomDrawer = (props) => {
                 fontFamily: 'Roboto-Regular',
                 marginRight: 5,
               }}>
-              romario@gmail.com
+              {user.email}
             </Text>
           </View>
           </TouchableOpacity>

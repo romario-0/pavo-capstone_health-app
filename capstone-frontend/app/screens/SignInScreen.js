@@ -30,11 +30,8 @@ export default function SignInScreen() {
 
 
   const handleSignIn = () => {
-    setFormErrors(validate(inputs));
-    setIsSubmit(true);
-    if(Object.keys(formErrors).length === 0 && isSubmit){
       onLogin(inputs.email, inputs.password);
-    }} 
+    } 
 
     const validate= (values) => {
       const errors={};
