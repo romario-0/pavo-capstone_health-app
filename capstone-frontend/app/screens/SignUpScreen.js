@@ -11,17 +11,15 @@ export default function SignUpScreen() {
     username:'',
     email:'',
     mobile:'',
-    crepwd:'',
-    cnfmpwd:'',
+    createpassword:'',
+    confirmpassword:'',
   
 
   })
 
-  const [formErrors,setFormErrors]= useState({});
+  const [formErrors,setFormErrors]= useState({}); 
 
-  const [errors,setErrors]= useState({});
-
-  //const [isSubmit,setIsSubmit]= useState(false)
+  const [isSubmit,setIsSubmit]= useState(false)
   const {onRegister} = useContext(AuthenticationContext);
   const [checked,setChecked]= useState("male")
     
@@ -33,16 +31,12 @@ export default function SignUpScreen() {
     const handleSignup=()=>{
 
       setFormErrors(validate(inputs));
+      setIsSubmit(true);
       const user={fullname:inputs.username,email:inputs.email,password:inputs.cnfmpwd,gender:checked}
-      onRegister(user)
-      console.log(user)
- 
-     }
-
-     useEffect(()=>{
-     
-      
-     },[formErrors])
+      if(Object.keys(formErrors).length ===0 && isSubmit){
+        onRegister(user)
+      }
+    }
 
     const validate=  (values) => {
      const errors={};
@@ -54,6 +48,8 @@ export default function SignUpScreen() {
      }
      if(!values.email){
       errors.email="emial is required";
+    }else if(!regex.test(values.email)){
+      errors.email="This is not a valid email"
     }
     if(!values.mobile){
       errors.mobile="mobile is required";
@@ -87,7 +83,6 @@ export default function SignUpScreen() {
         <Text style={styles.error}>{formErrors.username}</Text>
       <TextInput style={styles.textinput} 
                  placeholder="Enter Email"
-                 error={errors.email}
                  onChangeText={text=>handleOnChange(text,"email")}/>
                  <Text style={styles.error}>{formErrors.email}</Text>  
        <TextInput style={styles.textinput}
@@ -95,15 +90,14 @@ export default function SignUpScreen() {
                  placeholder="Enter Mobile Number" 
                  onChangeText={text=>handleOnChange(text,"mobile")}/>
                  <Text style={styles.error}>{formErrors.mobile}</Text>
-                 { checked}
         <View style={styles.inline}>
-        <Text>Male</Text>
+        <Text style={styles.genlabel}>Male</Text>
         <RadioButton
         value="male"
         status={ checked === 'male' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('male')}
       />
-      <Text>Female</Text>
+      <Text  style={styles.genlabel}>Female</Text>
       <RadioButton 
         value="female"
         status={ checked === 'female' ? 'checked' : 'unchecked' }
@@ -155,8 +149,10 @@ const styles = StyleSheet.create({
     height:40,
     marginBottom:30,
     color:"#fff",
+    outlineStyle:"none",
     borderBottomColor:"#f8f8f8",
     borderBottomWidth:1,
+    paddingLeft:20
         
   },
   sign:{
@@ -188,6 +184,13 @@ const styles = StyleSheet.create({
     },
     inline:{
       display:"flex",
-      flexDirection:"row"
+      flexDirection:"row",
+    
+    },
+    genlabel:{
+      color:"#afafaf",
+      marginTop:5,
+      fontSize:17,
+      fontWeight:600,
     }
 }); 
