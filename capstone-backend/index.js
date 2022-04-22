@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "img")));
 
 app.use("/user", require("./routes/user.route"));
+app.use("/goal", require("./routes/goal.route"));
 
 app.get("/", (req, res) => {
   res.send(`Pavo backend `);
