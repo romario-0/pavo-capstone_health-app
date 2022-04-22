@@ -10,7 +10,7 @@ const HomeScreen = () => {
         <SafeAreaView>
             <View style={styles.home}>
                 <View style={styles.card}>
-                <Text>{user}</Text>
+                <Text>{user.fullname}</Text>
                 </View>
             <FlatList >
             </FlatList>
