@@ -19,8 +19,8 @@ const GoalScreen = () => {
             return (
                 <View style={selectedCss} key={item._id}>
                     <TouchableOpacity onPress={() => {setGoal(item.goal)}}>
-                    <Image style={{height: 40, width: 40}} source={{uri: path+item.goalImg}}/>
-                    <Text>{item.goal}</Text>
+                    <Image style={styles.img} source={{uri: path+item.goalImg}}/>
+                    <Text style={{ fontSize: 17, fontWeight:700, color:'#fff'}}>{item.goal}</Text>
                     </TouchableOpacity>
                 </View>
             )});
@@ -36,37 +36,45 @@ const GoalScreen = () => {
     const styles = StyleSheet.create({
       container: {
         flex: 1,
-        paddingHorizontal: 20,
-        backgroundColor: '#fff',
-        flexDirection: "coloumn",
+        padding: 12,
+        backgroundColor: 'rgb(54, 72, 95)',
+        flexDirection: "row",
         flexWrap: "wrap",
         alignItems: 'center',
         justifyContent: 'center'
       },
       item: {
-        flex: 1,
+        flex: "44%",
         marginHorizontal: 10,
-        marginTop: 5,
-        padding: 5,
-        backgroundColor: '#b5e5e6',
+        backgroundColor: 'rgb(32, 152, 152)',
         fontSize: 24,
+        padding:12,
         width:150,
-        height: 100,
+        height: 130,
+        display:"flex",
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius:10
       },
       selected_item: {
-        flex: 1,
+        flex: "44%",
         marginHorizontal: 10,
-        marginTop: 5,
-        padding: 5,
-        backgroundColor: '#4164cc',
+        backgroundColor: 'rgb(18, 209, 209)',
         fontSize: 24,
+        padding:12,
         width:150,
-        height: 100,
+        height: 130,
+        display:"flex",
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius:10
       },
+      img:{
+        width:60,
+        height:60,
+        marginLeft:"auto",
+        marginHorizontal:"auto"
+      }
     });
     
 export default GoalScreen;
