@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const axios = require("axios");
 dotenv.config("../.env");
+const path = require("path");
 
 const getUser = async (req, res) => {
   try {
@@ -38,8 +39,14 @@ const addUser = async (req, res) => {
       res.json({
         message: "Registration Done",
         _id: response._id,
-        fullName: response.fullname,
-        email: response.email,
+        user: {
+          id: response._id,
+          fullname: response.fullname,
+          email: response.email,
+          phone: response.phone,
+          gender: response.gender,
+          profilepic: response.profilepic.data.toString(),
+        },
       });
     }
   } catch (error) {
@@ -72,7 +79,14 @@ const loginUser = async (req, res) => {
         return res.status(201).json({
           message: "Login Successfull",
           userToken: Token,
-          User: userEmail.fullname,
+          user: {
+            id: userEmail._id,
+            fullname: userEmail.fullname,
+            email: userEmail.email,
+            phone: userEmail.phone,
+            gender: userEmail.gender,
+            profilepic: userEmail.profilepic.data.toString(),
+          },
         });
       } else {
         return res.json({ message: "Invalid Password" });
@@ -180,6 +194,32 @@ const getDashboard = async (req, res) => {
     motivationalQuote = await axios.request(quotes);
     // console.log(motivationalQuote.data);
 
+    // // checkig purpuse
+    // console.log(`${getUserDetail.height}
+    //   ${getUserDetail.weight}
+    //   ${getUserDetail.goal}
+    //   ${getUserDetail.age}
+    //   ${getUserDetail.hip}
+    //   ${getUserDetail.neck}
+    //   ${getUserDetail.waist}
+    //   ${getUserDetail.activity}`);
+    if (
+      !getUserDetail.height &&
+      !getUserDetail.weight &&
+      !getUserDetail.goal &&
+      !getUserDetail.age &&
+      !getUserDetail.hip &&
+      !getUserDetail.neck &&
+      !getUserDetail.waist &&
+      !getUserDetail.activity
+    ) {
+      return res.json({
+        quote: motivationalQuote.data,
+        user: getUserDetail,
+        message: "Data not availabe",
+      });
+    }
+
     // idealWeight
     const idealWeight = {
       method: "GET",
@@ -238,8 +278,6 @@ const getDashboard = async (req, res) => {
       idealWeightOfUser: idealWeightOfUser.data.data,
       bmiOfUser: bmiOfUser.data.data,
       bodyFatOfUser: bodyFatOfUser.data.data,
-
-      
     }); //returns all details of user,idealweight,bmi,bodyfat
   } catch (error) {
     console.log(error);
