@@ -174,6 +174,8 @@ const updateUser = async (req, res) => {
 
 const getDashboard = async (req, res) => {
   let idealWeightOfUser, bmiOfUser, bodyFatOfUser;
+  const Nodata = { message: "No Data.." };
+
   try {
     const getUserDetail = await User.findById({ _id: req.user.id }).select(
       "-password"
@@ -203,81 +205,91 @@ const getDashboard = async (req, res) => {
     //   ${getUserDetail.neck}
     //   ${getUserDetail.waist}
     //   ${getUserDetail.activity}`);
+
+    // idealWeight
+    if (getUserDetail.height && getUserDetail.gender) {
+      const idealWeight = {
+        method: "GET",
+        url: "https://fitness-calculator.p.rapidapi.com/idealweight",
+        params: { gender: getUserDetail.gender, height: getUserDetail.height },
+        headers: {
+          "X-RapidAPI-Host": "fitness-calculator.p.rapidapi.com",
+          "X-RapidAPI-Key":
+            "56d21850d0msh562e0fff5e3f167p167d1cjsnf6ba583a1812",
+        },
+      };
+      //fetching from api
+      idealWeightOfUser = await axios.request(idealWeight);
+      // console.log(idealWeightOfUser.data.data);
+    }
+
+    // Bmi
+    if (getUserDetail.height && getUserDetail.weight && getUserDetail.age) {
+      const bmi = {
+        method: "GET",
+        url: "https://fitness-calculator.p.rapidapi.com/bmi",
+        params: {
+          age: getUserDetail.age,
+          weight: getUserDetail.weight,
+          height: getUserDetail.height,
+        },
+        headers: {
+          "X-RapidAPI-Host": "fitness-calculator.p.rapidapi.com",
+          "X-RapidAPI-Key":
+            "56d21850d0msh562e0fff5e3f167p167d1cjsnf6ba583a1812",
+        },
+      };
+      //fetching from api
+      bmiOfUser = await axios.request(bmi);
+      // console.log(bmiOfUser.data.data);
+    }
+
+    // body fat percentage
     if (
-      !getUserDetail.height &&
-      !getUserDetail.weight &&
-      !getUserDetail.goal &&
-      !getUserDetail.age &&
-      !getUserDetail.hip &&
-      !getUserDetail.neck &&
-      !getUserDetail.waist &&
-      !getUserDetail.activityLevel
+      getUserDetail.height &&
+      getUserDetail.weight &&
+      getUserDetail.gender &&
+      getUserDetail.age &&
+      getUserDetail.hip &&
+      getUserDetail.neck &&
+      getUserDetail.waist
     ) {
+      const bodyFat = {
+        url: "https://fitness-calculator.p.rapidapi.com/bodyfat",
+        params: {
+          age: getUserDetail.age,
+          gender: getUserDetail.gender,
+          weight: getUserDetail.weight,
+          height: getUserDetail.height,
+          neck: getUserDetail.neck,
+          waist: getUserDetail.waist,
+          hip: getUserDetail.hip,
+        }, //fetching details from DB
+        headers: {
+          "X-RapidAPI-Host": "fitness-calculator.p.rapidapi.com",
+          "X-RapidAPI-Key":
+            "56d21850d0msh562e0fff5e3f167p167d1cjsnf6ba583a1812",
+        },
+      };
+      bodyFatOfUser = await axios.request(bodyFat);
+      // console.log(bodyFatOfUser.data.data);
+    }
+
+    if (!idealWeightOfUser && !bmiOfUser && !bodyFatOfUser) {
       return res.json({
         quote: motivationalQuote.data,
         user: getUserDetail,
-        message: "Data not availabe",
+        message: "Please fill your data..",
       });
     }
-
-    // idealWeight
-    const idealWeight = {
-      method: "GET",
-      url: "https://fitness-calculator.p.rapidapi.com/idealweight",
-      params: { gender: getUserDetail.gender, height: getUserDetail.height },
-      headers: {
-        "X-RapidAPI-Host": "fitness-calculator.p.rapidapi.com",
-        "X-RapidAPI-Key": "56d21850d0msh562e0fff5e3f167p167d1cjsnf6ba583a1812",
-      },
-    };
-    //fetching from api
-    idealWeightOfUser = await axios.request(idealWeight);
-    // console.log(idealWeightOfUser.data.data);
-
-    // Bmi
-    const bmi = {
-      method: "GET",
-      url: "https://fitness-calculator.p.rapidapi.com/bmi",
-      params: {
-        age: getUserDetail.age,
-        weight: getUserDetail.weight,
-        height: getUserDetail.height,
-      },
-      headers: {
-        "X-RapidAPI-Host": "fitness-calculator.p.rapidapi.com",
-        "X-RapidAPI-Key": "56d21850d0msh562e0fff5e3f167p167d1cjsnf6ba583a1812",
-      },
-    };
-    //fetching from api
-    bmiOfUser = await axios.request(bmi);
-    // console.log(bmiOfUser.data.data);
-
-    // body fat percentage
-    const bodyFat = {
-      url: "https://fitness-calculator.p.rapidapi.com/bodyfat",
-      params: {
-        age: getUserDetail.age,
-        gender: getUserDetail.gender,
-        weight: getUserDetail.weight,
-        height: getUserDetail.height,
-        neck: getUserDetail.neck,
-        waist: getUserDetail.waist,
-        hip: getUserDetail.hip,
-      }, //fetching details from DB
-      headers: {
-        "X-RapidAPI-Host": "fitness-calculator.p.rapidapi.com",
-        "X-RapidAPI-Key": "56d21850d0msh562e0fff5e3f167p167d1cjsnf6ba583a1812",
-      },
-    };
-    bodyFatOfUser = await axios.request(bodyFat);
-    // console.log(bodyFatOfUser.data.data);
-
     res.json({
       quote: motivationalQuote.data,
       user: getUserDetail,
-      idealWeightOfUser: idealWeightOfUser.data.data,
-      bmiOfUser: bmiOfUser.data.data,
-      bodyFatOfUser: bodyFatOfUser.data.data,
+      idealWeightOfUser: idealWeightOfUser
+        ? idealWeightOfUser.data.data
+        : Nodata,
+      bmiOfUser: bmiOfUser ? bmiOfUser.data.data : Nodata,
+      bodyFatOfUser: bodyFatOfUser ? bodyFatOfUser.data.data : Nodata,
     }); //returns all details of user,idealweight,bmi,bodyfat
   } catch (error) {
     console.log(error);
@@ -305,7 +317,10 @@ const changePassword = async (req, res) => {
         { password: newPassword }
       );
       // console.log(updatedPassword);
-      res.json({ message: "Password Updated Successfully" });
+      res.json({
+        message: "Password Updated Successfully",
+        status: updatedPassword,
+      });
     } else {
       res.json({ message: "Password doesn't match" });
     }
