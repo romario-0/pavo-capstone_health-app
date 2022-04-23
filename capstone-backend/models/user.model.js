@@ -51,7 +51,7 @@ const userSchema = mongoose.Schema(
     hip: {
       type: Number,
     },
-    activitylevel: {
+    activityLevel: {
       //ex. no excercise, 3 times in week, 5 times in week, 6 times in week
       type: String,
     },
