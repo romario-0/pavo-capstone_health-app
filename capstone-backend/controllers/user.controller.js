@@ -135,7 +135,7 @@ const updateUser = async (req, res) => {
       neck,
       waist,
       hip,
-      activity,
+      activityLevel,
     } = req.body;
     const obj = {
       fullname,
@@ -150,7 +150,7 @@ const updateUser = async (req, res) => {
       neck,
       waist,
       hip,
-      activity,
+      activityLevel,
       profilepic: { data: imgData, contentType: imgContent },
     };
     // console.log(obj);
@@ -211,7 +211,7 @@ const getDashboard = async (req, res) => {
       !getUserDetail.hip &&
       !getUserDetail.neck &&
       !getUserDetail.waist &&
-      !getUserDetail.activity
+      !getUserDetail.activityLevel
     ) {
       return res.json({
         quote: motivationalQuote.data,
@@ -284,10 +284,41 @@ const getDashboard = async (req, res) => {
   }
 };
 
+const changePassword = async (req, res) => {
+  try {
+    const getUserDetail = await User.findById({ _id: req.user.id }).select(
+      "password"
+    );
+    console.log(getUserDetail);
+    const oldPassword = req.body.oldPassword;
+    console.log(oldPassword);
+    const matchPassword = await bcrypt.compare(
+      //hashing password
+      req.body.oldPassword,
+      getUserDetail.password
+    );
+    if (matchPassword) {
+      const newPassword = await bcrypt.hash(req.body.newPassword, 12);
+
+      const updatedPassword = await User.updateOne(
+        { _id: req.user.id },
+        { password: newPassword }
+      );
+      // console.log(updatedPassword);
+      res.json({ message: "Password Updated Successfully" });
+    } else {
+      res.json({ message: "Password doesn't match" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getUser,
   addUser,
   loginUser,
   updateUser,
   getDashboard,
+  changePassword,
 };
