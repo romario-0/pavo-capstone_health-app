@@ -20,7 +20,7 @@ const GoalScreen = () => {
                 <View style={selectedCss} key={item._id}>
                     <TouchableOpacity onPress={() => {setGoal(item.goal)}}>
                     <Image style={styles.img} source={{uri: path+item.goalImg}}/>
-                    <Text style={{ fontSize: 17, fontWeight:700, color:'#fff'}}>{item.goal}</Text>
+                    <Text style={{ fontSize: 14, fontWeight:700, color:'#fff'}}>{item.goal}</Text>
                     </TouchableOpacity>
                 </View>
             )});

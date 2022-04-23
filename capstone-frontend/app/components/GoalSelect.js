@@ -14,8 +14,8 @@ const GoalSelect = ({goal, onSelect, onNext}) => {
             return (
                 <View style={selectedCss} key={item._id}>
                     <TouchableOpacity onPress={() => {onSelect({goal : item.goal})}}>
-                    <Image style={{height: 40, width: 40}} source={{uri: path+item.goalImg}}/>
-                    <Text>{item.goal}</Text>
+                    <Image style={styles.img} source={{uri: path+item.goalImg}}/>
+                    <Text style={{ fontSize: 14, fontWeight:700, color:'#fff'}}>{item.goal}</Text>
                     </TouchableOpacity>
                 </View>
             )});
@@ -32,37 +32,42 @@ const GoalSelect = ({goal, onSelect, onNext}) => {
     const styles = StyleSheet.create({
       container: {
         flex: 1,
-        paddingHorizontal: 20,
-        backgroundColor: '#fff',
-        flexDirection: "coloumn",
+        padding: 26, 
+        backgroundColor: 'rgb(54, 72, 95)',
+        flexDirection: "column",
         flexWrap: "wrap",
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        minHeight:"90vh"
       },
       item: {
-        flex: 1,
-        marginHorizontal: 10,
-        marginTop: 5,
-        padding: 5,
-        backgroundColor: '#b5e5e6',
+        marginBottom: "20px",
+        backgroundColor: 'rgb(32, 152, 152)',
         fontSize: 24,
-        width:150,
-        height: 100,
+        padding:16,
+        width:"85%",
+        display:"flex",                                  
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius:16
       },
       selected_item: {
-        flex: 1,
-        marginHorizontal: 10,
-        marginTop: 5,
-        padding: 5,
-        backgroundColor: '#4164cc',
+        marginBottom: "20px",
+        backgroundColor: 'rgb(18, 209, 209)',
         fontSize: 24,
-        width:150,
-        height: 100,
+        padding:16,
+        width:"85%",
+        display:"flex",                                    
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius:16
       },
+      img:{
+        width:50,
+        height:50,
+        marginLeft:"auto",
+        marginHorizontal:"auto"
+      }
     });
     
 export default GoalSelect;

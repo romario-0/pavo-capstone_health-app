@@ -22,7 +22,7 @@ const ActivityLevelSelect = ({activityLevel, onSelect, onNext, onPrev}) => {
             return (
               <View style={selectedCss} key={item._id}>
                 <TouchableOpacity onPress={() => {onSelect({activityLevel : item.activitylevel})}}>
-                <Text>{item.levelName}</Text>
+                <Text style={{ fontSize: 14, fontWeight:700, color:'#fff'}}>{item.levelName}</Text>
               </TouchableOpacity>
           </View>
             )});
@@ -32,8 +32,11 @@ const ActivityLevelSelect = ({activityLevel, onSelect, onNext, onPrev}) => {
       apiData &&
         <View style={styles.container}>
             {levelElements}
+            <View style={{display:"flex", flexDirection:"row", width:"85%", justifyContent:"space-between"}}> 
             <Button onPress={onPrev} title="Prev"/>
             <Button onPress={onNext} title="Submit"/>
+            </View> 
+            
         </View>
     );
 }
@@ -41,36 +44,37 @@ const ActivityLevelSelect = ({activityLevel, onSelect, onNext, onPrev}) => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      paddingHorizontal: 20,
-      backgroundColor: '#fff',
-      flexDirection: "coloumn",
+      padding: 26, 
+      backgroundColor: 'rgb(54, 72, 95)',
+      flexDirection: "column",
       flexWrap: "wrap",
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      minHeight:"90vh"
     },
     item: {
-      flex: 1,
-      marginHorizontal: 10,
-      marginTop: 5,
-      padding: 5,
-      backgroundColor: '#b5e5e6',
+      marginBottom: "20px",
+      backgroundColor: 'rgb(32, 152, 152)',
       fontSize: 24,
-      width:150,
-      height: 100,
+      padding:16,
+      width:"85%",
+      height:100,
+      display:"flex",                                  
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      borderRadius:16
     },
     selected_item: {
-      flex: 1,
-      marginHorizontal: 10,
-      marginTop: 5,
-      padding: 5,
-      backgroundColor: '#4164cc',
-      fontSize: 24,
-      width:150,
-      height: 100,
-      alignItems: 'center',
-      justifyContent: 'center'
+      marginBottom: "20px",
+        backgroundColor: 'rgb(18, 209, 209)',
+        fontSize: 24,
+        padding:16,
+        width:"85%",
+        height:100,
+        display:"flex",                                    
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius:16
     },
   });
 
