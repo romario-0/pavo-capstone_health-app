@@ -135,7 +135,7 @@ const updateUser = async (req, res) => {
       neck,
       waist,
       hip,
-      activity,
+      activityLevel,
     } = req.body;
     const obj = {
       fullname,
@@ -150,7 +150,7 @@ const updateUser = async (req, res) => {
       neck,
       waist,
       hip,
-      activity,
+      activityLevel,
       profilepic: { data: imgData, contentType: imgContent },
     };
     // console.log(obj);
@@ -211,7 +211,7 @@ const getDashboard = async (req, res) => {
       !getUserDetail.hip &&
       !getUserDetail.neck &&
       !getUserDetail.waist &&
-      !getUserDetail.activity
+      !getUserDetail.activityLevel
     ) {
       return res.json({
         quote: motivationalQuote.data,
