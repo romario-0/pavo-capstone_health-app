@@ -24,4 +24,7 @@ router.post(
 //dashboard route
 router.get("/dashboard", authorization, userController.getDashboard);
 
+//change user password
+router.post("/changePassword", authorization, userController.changePassword);
+
 module.exports = router;
