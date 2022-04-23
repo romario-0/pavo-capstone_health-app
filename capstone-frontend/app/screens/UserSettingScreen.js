@@ -13,7 +13,7 @@ const UserSettingScreen = () => {
     if(userToken != null){
         const requestOptions = {
           method: 'GET',
-          headers: { 'Content-Type': 'application/json', 'authorization' : `Bearer ${userToken}` }
+          headers: { 'Content-Type': 'application/json', 'authorization' : userToken }
         };
         fetch(path+'user/userGet', requestOptions).then(res => res.json()).then(async data => {
           if(data.userDetail != undefined && data.userDetail != null){
