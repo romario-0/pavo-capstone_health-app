@@ -15,7 +15,7 @@ export const AuthenticationContextProvider = ({children}) => {
 
     const checkLoggedUser = () => {
         setIsLoading(true);
-        if (Platform.OS != 'web') {
+        
           //const token = await SecureStore.getItemAsync('token');
           if(userToken != null){
             const requestOptions = {
@@ -23,16 +23,18 @@ export const AuthenticationContextProvider = ({children}) => {
               headers: { 'Content-Type': 'application/json', 'authorization' : userToken }
             };
             return fetch(path+'user/userGet', requestOptions).then(res => res.json()).then(async data => {
-              if(data.user != undefined && data.user != null){
-                setUser(data.user);
+              console.log(data);
+              if(data.userDetail != undefined && data.userDetail != null){
+                setUser(data.userDetail);
+                return true;
               }else{
                 setError(data.message);
               }
-              return data.user !== null;
+              return false;
             });
           }
           return false;
-        }
+        
     }
 
     const onLogin = (email, password) => {
@@ -86,16 +88,36 @@ export const AuthenticationContextProvider = ({children}) => {
         }
     }
 
+    const updateUser = (userDetails) => {
+      setIsLoading(true);
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'authorization' : userToken },
+            body: JSON.stringify(userDetails)
+          };
+          fetch(path+'user/userUpdate', requestOptions).then(res => res.json()).then(async data => {
+            if(data.user != undefined && data.user != null){
+              setUser(data.user);
+            }else{
+              setError(data.message);
+            }
+            
+            setIsLoading(false);
+          });
+    }
+
     return (
     <AuthenticationContext.Provider
         value={{
             isLoading,
             user,
             error,
+            userToken,
             onLogin,
             onRegister,
             onLogout,
-            checkLoggedUser
+            checkLoggedUser,
+            updateUser
         }}
     >
         {children}  
