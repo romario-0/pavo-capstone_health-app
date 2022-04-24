@@ -16,6 +16,7 @@ app.use(express.static(path.join(__dirname, "img")));
 app.use("/user", require("./routes/user.route"));
 app.use("/goal", require("./routes/goal.route"));
 app.use("/activity", require("./routes/activity.route"));
+app.use("/food", require("./routes/food.route"));
 
 app.get("/", (req, res) => {
   res.send(`Pavo backend `);
