@@ -6,7 +6,6 @@ const MealRecipe = ({navigation, route}) => {
     let recipe = null;
     const {foodID} = route.params;
     const {apiData, isLoading, serverError} = useFetch(`food/get-recipe?foodID=${foodID}`);
-    console.log(apiData);
     if(apiData){
     recipe = apiData.data.meals[0];
     

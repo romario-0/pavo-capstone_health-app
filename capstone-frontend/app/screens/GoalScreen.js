@@ -13,7 +13,6 @@ const GoalScreen = () => {
       const path = 'https://ultimate-health-app.herokuapp.com/goal/';
 
         if(apiData){
-            console.log(apiData);
             goalElements = apiData.allGoals.map(item => {
                 const selectedCss = goal === item.goal ? styles.selected_item : styles.item;
             return (

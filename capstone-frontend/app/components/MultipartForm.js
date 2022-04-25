@@ -23,7 +23,6 @@ const MultipartForm = ({user}) => {
     }
 
     const submitForm = () => {
-        console.log(formData);
         if(Object.keys(formErrors).length ===0){
             Object.keys(formData).forEach((k) => {
                 if(formData[k] == null || formData[k] == '' || formData[k] == undefined){

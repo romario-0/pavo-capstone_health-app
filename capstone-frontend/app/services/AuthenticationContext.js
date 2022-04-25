@@ -23,7 +23,6 @@ export const AuthenticationContextProvider = ({children}) => {
               headers: { 'Content-Type': 'application/json', 'authorization' : userToken }
             };
             return fetch(path+'user/userGet', requestOptions).then(res => res.json()).then(async data => {
-              console.log(data);
               if(data.userDetail != undefined && data.userDetail != null){
                 setUser(data.userDetail);
                 return true;
