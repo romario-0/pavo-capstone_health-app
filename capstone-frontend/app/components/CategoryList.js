@@ -4,7 +4,7 @@ import useFetch from "../services/Fetch";
 const Item = ({ title, itemImg, itemDescription }) => (
     <View style={styles.item}>
         <Image style={styles.img} source={{uri : itemImg}} />
-        <Text >{title}</Text>
+        <Text style={{color:"#fff", fontSize:16, fontWeight:700 }} >{title}</Text>
     </View>
   );
 
@@ -47,11 +47,11 @@ const styles = StyleSheet.create({
       minHeight:"90vh"
     },
     item: {
-      marginBottom: "20px",
       backgroundColor: 'rgb(32, 152, 152)',
       fontSize: 24,
       padding:16,
-      width:"85%",
+      minWidth:"80vw",
+      marginTop:20,
       display:"flex",                                  
       alignItems: 'center',
       justifyContent: 'center',
