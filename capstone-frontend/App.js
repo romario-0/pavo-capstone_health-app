@@ -11,20 +11,19 @@ export default function App() {
       <Text>Enter Name:</Text>
       <TextInput
         multiline
-        style={style.input}
+        style={styles.input}
         placeholder="e.g.Mrie"
         onChangeText={(val) => setName(val)}
       />
-      <Text>Enter Age</Text>
+      <Text>Enter Age:</Text>
       <TextInput
-        style={style.input}
+        style={styles.input}
         keyboardType="numeric"
         placeholder="e.g.99"
         onChangeText={(val) => setAge(val)}
       />
 
       <Text>
-        {" "}
         name: {name},age: {age}{" "}
       </Text>
     </View>
@@ -37,5 +36,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "Green",
+    padding: 8,
+    margin: 10,
+    width: 200,
   },
 });
