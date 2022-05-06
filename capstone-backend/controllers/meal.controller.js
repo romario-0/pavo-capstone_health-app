@@ -69,10 +69,10 @@ const deleteMeal = async (req, res) => {
 
 const getMeal = async (req, res) => {
   try {
-    const usersList = await Meal.find({ userId: req.user.id });
+    const mealList = await Meal.find({ userId: req.user.id });
     res.json(
-      usersList
-        ? { mealList: usersList, message: "List fetched." }
+      mealList
+        ? { mealList: mealList, message: "List fetched." }
         : { message: "Your List is empty." }
     );
   } catch (error) {
