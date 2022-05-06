@@ -3,7 +3,7 @@ require("../db/conn");
 
 const mealSchema = mongoose.Schema({
   mealApiId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     require: true,
   },
   mealName: {
@@ -18,7 +18,9 @@ const mealSchema = mongoose.Schema({
       },
       measure: {
         type: String,
-        require: true,
+      },
+      calorieCount: {
+        type: Number,
       },
     },
   ],
@@ -28,7 +30,9 @@ const mealSchema = mongoose.Schema({
   },
   videoLink: {
     type: String,
-    require: true,
+  },
+  totalCalorieCount: {
+    type: Number,
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -38,4 +42,3 @@ const mealSchema = mongoose.Schema({
 });
 const Meal = mongoose.model("Meal", mealSchema);
 module.exports = Meal;
-
