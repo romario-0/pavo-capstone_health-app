@@ -67,7 +67,7 @@ const deleteMeal = async (req, res) => {
   }
 };
 
-const getMeal = async (req, res) => {
+const getMealList = async (req, res) => {
   try {
     const mealList = await Meal.find({ userId: req.user.id });
     res.json(
@@ -80,4 +80,4 @@ const getMeal = async (req, res) => {
   }
 };
 
-module.exports = { addMeal, deleteMeal, getMeal };
+module.exports = { addMeal, deleteMeal, getMealList };
