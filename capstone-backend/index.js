@@ -18,6 +18,7 @@ app.use("/goal", require("./routes/goal.route"));
 app.use("/activity", require("./routes/activity.route"));
 app.use("/food", require("./routes/food.route"));
 app.use("/meal", require("./routes/meal.route"));
+app.use("/dailycalorie", require("./routes/dailyCalorie.route"));
 
 app.get("/", (req, res) => {
   res.send(`Pavo backend `);
