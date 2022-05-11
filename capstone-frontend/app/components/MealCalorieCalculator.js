@@ -1,19 +1,15 @@
 import {Picker} from '@react-native-picker/picker';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { Button, View, Text } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-
-const mealList = [{mealId:1, mealName:'Chicken Soup', calorieCount:1688, ingredients:[{name:'chicken',measure:'1kg'}, {name:'salt',measure:'1 tablespoon'}]},
-{mealId:2, mealName:'Mutton Keema', calorieCount:2684, ingredients:[{name:'chicken',measure:'1kg'}, {name:'salt',measure:'1 tablespoon'}]},
-{mealId:3, mealName:'Vegetable Salad', calorieCount:1508, ingredients:[{name:'chicken',measure:'1kg'}, {name:'salt',measure:'1 tablespoon'}]},
-{mealId:4, mealName:'Paneer Tikka', calorieCount:1987, ingredients:[{name:'chicken',measure:'1kg'}, {name:'salt',measure:'1 tablespoon'}]},
-{mealId:5, mealName:'Chicken Curry', calorieCount:2454, ingredients:[{name:'chicken',measure:'1kg'}, {name:'salt',measure:'1 tablespoon'}]}];
+import { MealContext } from '../services/MealContext';
 
 const MealCalorieCalculator = ({getTotalCalorie}) => {
 
+    const {userMeals} = useContext(MealContext);
     const [calorieCount, setCalorieCount] = useState(0);
     const [selectedMealList, setSelectedMealList] = useState([]);
-    const [selectedMealID, setSelectedMealID] = useState(mealList[0].mealId);
+    const [selectedMealID, setSelectedMealID] = useState();
     let showList = null;
 
     const pickerRef = useRef();
@@ -27,29 +23,33 @@ const MealCalorieCalculator = ({getTotalCalorie}) => {
     }
 
     const handleAdd = () => {
-        const meal = mealList.find(ele => ele.mealId == selectedMealID);
+        const meal = userMeals.find(ele => ele.mealApiId == selectedMealID);
         setSelectedMealList([...selectedMealList, meal]);
-        setCalorieCount(prev => prev+meal.calorieCount);
+        setCalorieCount(prev => prev+meal.totalCalorieCount);
     }
 
     const handleRemove = (seletedID) => {
-        const mealID = selectedMealList.findIndex(ele => ele.mealId == seletedID);
+        const mealID = selectedMealList.findIndex(ele => ele.mealApiId == seletedID);
         const meal = selectedMealList[mealID];
         selectedMealList.splice(mealID, 1);
-        setCalorieCount(prev => prev-meal.calorieCount);
+        setCalorieCount(prev => prev-meal.totalCalorieCount);
     }
 
-    const dropDownElements = mealList.map(item => (<Picker.Item key={item.mealId} label={item.mealName} value={item.mealId} />));
+    const dropDownElements = userMeals.map(item => (<Picker.Item key={item.mealApiId} label={item.mealName} value={item.mealApiId} />));
     
 
     if(selectedMealList.length > 0){
         showList = selectedMealList.map((item, index) => (<View key={index}>
-                <Text>{item.mealName} : {item.calorieCount}</Text>
-                <Ionicons name="ios-remove-circle-outline" size={24} color="black" onPress={() => handleRemove(item.mealId)} />
+                <Text>{item.mealName} : {item.totalCalorieCount}</Text>
+                <Ionicons name="ios-remove-circle-outline" size={24} color="black" onPress={() => handleRemove(item.mealApiId)} />
             </View>));
     }
 
+    const hasMealList = userMeals.length > 0;
+
     return (
+        <>
+        {hasMealList &&
         <View>
             {showList}
             <Picker
@@ -63,7 +63,9 @@ const MealCalorieCalculator = ({getTotalCalorie}) => {
             <Button title='Add to List' onPress={handleAdd} />
             <Text> Total : {calorieCount}</Text>
             <Button title='Save' onPress={() => getTotalCalorie(calorieCount)} />
-        </View>
+        </View>}
+        {!hasMealList && <View><Text>No meals added</Text></View>}
+        </>
     )
 }
 

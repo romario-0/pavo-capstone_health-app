@@ -1,18 +1,9 @@
 import { Button, View, Text,StyleSheet } from "react-native";
+import CategoryList from "../components/CategoryList";
 
 const MealMenuScreen = ({navigation}) => {
     return (
-        <View style={styles.container}>
-            <Text style={styles.tex}>Search By</Text>
-            <View style={styles.btn}>
-            <Button onPress={() => navigation.navigate('CategoryList')} title={'Category'} />
-            </View>
-            <View style={styles.btn}>
-            <Button onPress={() => navigation.navigate('IngredientList')} title={'Ingredient'} />
-            </View>
-        </View>
-        
-
+       <CategoryList navigation={navigation} />
     );
 }
 
@@ -21,12 +12,10 @@ const styles = StyleSheet.create({
       flex: 1,
       padding: 12,
       backgroundColor: 'rgb(54, 72, 95)',
-      flexDirection: "column",
-      flexWrap: "wrap",
       alignItems: 'center',
       justifyContent: 'center'
     },
-    tex:{
+    text:{
         fontSize:21, 
         fontWeight:700,
         color:"rgb(87, 176, 176)",
