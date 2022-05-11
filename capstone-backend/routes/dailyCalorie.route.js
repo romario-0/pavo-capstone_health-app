@@ -9,7 +9,7 @@ router.post(
   authorization,
   dailyCalorieController.addDailyCalorie
 );
-router.get(
+router.post(
   "/getDailyCalorie",
   authorization,
   dailyCalorieController.getDailyCalorie

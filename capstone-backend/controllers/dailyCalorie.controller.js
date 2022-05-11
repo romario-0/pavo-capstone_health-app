@@ -6,9 +6,14 @@ const addDailyCalorie = async (req, res) => {
   try {
     // let currentDate = new Date();
     console.log(Date());
+    if (!req.body.date <= Date()) {
+      return res.json({
+        message: "Please enter valid date..",
+      });
+    }
     const obj = {
-      Date: Date(),
-      CalorieCount: req.body.CalorieCount,
+      date: req.body.date,
+      calorieCount: req.body.calorieCount,
       userId: req.user.id,
     };
     const data = new DailyCalorie(obj);
@@ -25,7 +30,13 @@ const addDailyCalorie = async (req, res) => {
 
 const getDailyCalorie = async (req, res) => {
   try {
-    const getDailyCalories = await DailyCalorie.find({ userId: req.user.id });
+    const getDailyCalories = await DailyCalorie.find({
+      userId: req.user.id,
+      $and: [
+        { date: { $gt: req.body.fromDate } },
+        { date: { $lt: req.body.toDate } },
+      ],
+    });
     // console.log(getDailyCalories);
     res.json({
       message: "Daily Calories Fetched..",
