@@ -31,7 +31,7 @@ const TrackCalorie = () => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <MealCalorieCalculator getTotalCalorie={(data) => setCalorie(data)} />
+            <MealCalorieCalculator getTotalCalorie={(data) => {setCalorie(data); setModalVisible(false);}} />
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}>
