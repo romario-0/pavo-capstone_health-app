@@ -11,8 +11,6 @@ const authorization = (req, res, next) => {
     return;
   } else {
     // console.log(token);
-    //in frontend we dont use bearer keyword
-    token = token.split("Bearer ")[1];
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY, (err, playload) => {
       if (err) {
         return res.status(403).json({ message: "User is not authenticated." });
