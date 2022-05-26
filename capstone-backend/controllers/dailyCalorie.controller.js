@@ -28,6 +28,14 @@ const addDailyCalorie = async (req, res) => {
   }
 };
 
+// const updateDailyCalorie = async (req, res) => {
+//   try {
+
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
 const getDailyCalorie = async (req, res) => {
   try {
     const getDailyCalories = await DailyCalorie.find({
