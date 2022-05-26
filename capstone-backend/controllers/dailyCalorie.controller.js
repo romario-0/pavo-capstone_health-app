@@ -4,8 +4,6 @@ dotenv.config("../.env");
 
 const addDailyCalorie = async (req, res) => {
   try {
-    // let currentDate = new Date();
-    console.log(Date());
     if (!req.body.date <= Date()) {
       return res.json({
         message: "Please enter valid date..",
@@ -28,14 +26,6 @@ const addDailyCalorie = async (req, res) => {
   }
 };
 
-// const updateDailyCalorie = async (req, res) => {
-//   try {
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
 const getDailyCalorie = async (req, res) => {
   try {
     const getDailyCalories = await DailyCalorie.find({
@@ -45,7 +35,6 @@ const getDailyCalorie = async (req, res) => {
         { date: { $lt: req.body.toDate } },
       ],
     });
-    // console.log(getDailyCalories);
     res.json({
       message: "Daily Calories Fetched..",
       dailyCalorie: getDailyCalories,
