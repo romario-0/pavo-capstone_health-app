@@ -4,25 +4,42 @@ dotenv.config("../.env");
 
 const addDailyCalorie = async (req, res) => {
   try {
-    // let currentDate = new Date();
-    console.log(Date());
-    if (!req.body.date <= Date()) {
-      return res.json({
-        message: "Please enter valid date..",
-      });
-    }
     const obj = {
       date: req.body.date,
       calorieCount: req.body.calorieCount,
       userId: req.user.id,
     };
-    const data = new DailyCalorie(obj);
-    const response = await data.save();
-    //save data into db
-    res.json({
-      message: "Calorie Added Successfully",
-      dailyCalorie: response,
+
+    const checkDateCalorie = await DailyCalorie.findOne({
+      userId: req.user.id,
+      date: req.body.date,
     });
+
+    if (checkDateCalorie) {
+      try {
+        const updateDailyCalorie = await DailyCalorie.updateOne(
+          { _id: checkDateCalorie._id },
+          { calorieCount: req.body.calorieCount }
+        );
+        return res.status(201).json({
+          message: "Calorie Updated Successfully. ✔✌",
+          updateDailyCalorie: updateDailyCalorie,
+        });
+      } catch (error) {
+        console.log(error);
+        res.json({
+          message: error,
+        });
+      }
+    } else {
+      const data = new DailyCalorie(obj);
+      const response = await data.save();
+      //save data into db
+      return res.json({
+        message: "Calorie Added Successfully. ✔✌",
+        dailyCalorie: response,
+      });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -37,7 +54,6 @@ const getDailyCalorie = async (req, res) => {
         { date: { $lt: req.body.toDate } },
       ],
     });
-    // console.log(getDailyCalories);
     res.json({
       message: "Daily Calories Fetched..",
       dailyCalorie: getDailyCalories,

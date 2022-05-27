@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 require("../db/conn");
 
 const DailyCalorieSchema = mongoose.Schema({
-  Date: {
+  date: {
     type: Date,
     require: true,
   },
-  CalorieCount: {
+  calorieCount: {
     type: Number,
   },
   userId: {
